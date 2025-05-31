@@ -2,69 +2,133 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E-book: Receitas Saudáveis na Air Fryer</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #fffaf3;
-      color: #333;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 {
-      color: #d35400;
-    }
-    .preco {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-    .desconto {
-      font-weight: bold;
-      color: #27ae60;
-    }
-    label, input, button {
-      display: block;
-      margin: 10px 0;
-    }
-    input, button {
-      padding: 8px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    button {
-      background-color: #d35400;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #e67e22;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>E-book 15 Receitas Saudáveis na Air Fryer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff8f0;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #ffa726;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            padding: 30px;
+        }
+        .ebook-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #e65100;
+        }
+        .price {
+            font-size: 24px;
+            color: #2e7d32;
+        }
+        form {
+            margin-top: 30px;
+            background-color: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #ef6c00;
+            color: white;
+            padding: 15px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .checkout-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+    </style>
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const nome = document.getElementById("nome").value.trim();
+            const cupom = document.getElementById("cupom").value.trim();
+            if (!nome || !cupom) {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+                return;
+            }
+            const form = document.getElementById("formulario");
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById("formulario").style.display = "none";
+                    document.getElementById("botao-pagamento").classList.remove("hidden");
+                } else {
+                    alert("Ocorreu um erro ao enviar o formulário.");
+                }
+            });
+        }
+    </script>
 </head>
 <body>
-  <h1>Receitas Saudáveis na Air Fryer</h1>
-  <p>Descubra 15 receitas práticas, saudáveis e deliciosas feitas na Air Fryer para o seu dia a dia!</p>
-  <p class="preco">Preço original: <s>R$25,90</s></p>
-  <p class="preco desconto">Com o cupom do seu afiliado: R$19,90</p>
+    <header>
+        <h1>E-book: 15 Receitas Saudáveis na Air Fryer</h1>
+    </header>
+    <div class="container">
+        <img src="receitas.jpg" alt="E-book Receitas" class="ebook-image">
+        <h2>Transforme sua alimentação com receitas práticas e saudáveis!</h2>
+        <p>Descubra como preparar pratos deliciosos, nutritivos e fáceis usando apenas sua Air Fryer.</p>
+        <p class="price">De R$ 25,90 por apenas <strong>R$ 19,90*</strong> com cupom de desconto!</p>
+        <p>*Cupom obrigatório para garantir o valor promocional.</p>
 
-  <label for="cupom">Digite o cupom do afiliado:</label>
-  <input type="text" id="cupom" required />
+        <form id="formulario" action="https://formsubmit.co/suporte.lojadoguto@gmail.com" method="POST" onsubmit="handleFormSubmit(event)">
+            <label for="nome">Nome do cliente (obrigatório):</label>
+            <input type="text" id="nome" name="nome" required>
 
-  <button onclick="comprar()">Quero meu E-book agora</button>
+            <label for="email">E-mail do cliente (opcional):</label>
+            <input type="email" id="email" name="email">
 
-  <script>
-    function comprar() {
-      const cupom = document.getElementById('cupom').value.trim();
-      if (!cupom) {
-        alert('Por favor, digite o cupom do afiliado.');
-        return;
-      }
-      window.location.href = "https://mpago.la/1BPZwDJ";
-    }
-  </script>
+            <label for="cupom">Cupom de desconto / Nome do afiliado (obrigatório):</label>
+            <input type="text" id="cupom" name="cupom" required>
+
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_next" value="https://google.com">
+
+            <button type="submit">Confirmar dados e liberar botão de pagamento</button>
+        </form>
+
+        <div class="checkout-button hidden" id="botao-pagamento">
+            <a href="https://mpago.la/1BPZwDJ" target="_blank">
+                <button>Finalizar Pagamento – R$ 19,90</button>
+            </a>
+        </div>
+    </div>
 </body>
 </html>
